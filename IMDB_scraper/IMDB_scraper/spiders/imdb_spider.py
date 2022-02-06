@@ -25,4 +25,17 @@ class ImdbSpider(scrapy.Spider):
         yield scrapy.Request(next_credit, callback = self.parse_actor_page)
     
     def parse_actor_page(self, response):
-        pass
+
+        name_box = response.css("h1.header")
+        actor_name = name_box.css("span.itemprop::text").get()
+        
+        for film in response.css("div.filmo-category-section b"):
+            movie_or_TV_name = film.css("a::text").get()
+
+            if movie_or_TV_name:
+                yield {
+                    "actor" : actor_name, 
+                    "movie_or_TV_name" : movie_or_TV_name
+                    }
+
+        
