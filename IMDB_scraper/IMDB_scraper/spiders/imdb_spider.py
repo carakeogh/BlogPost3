@@ -9,7 +9,8 @@ class ImdbSpider(scrapy.Spider):
     start_urls = ['https://www.imdb.com/title/tt2467372/?ref_=fn_al_tt_1']
 
     def parse(self, response):
-        next_page = response.css("li.ipc-metadata-list__item a").attrib["href"]
+        
+        next_page = response.css("div.SubNav__SubNavContent-sc-11106ua-3.cKmYsV").css("li.ipc-inline-list__item a")[0].attrib["href"]
 
         if next_page:
             cast_page = response.urljoin(next_page)
