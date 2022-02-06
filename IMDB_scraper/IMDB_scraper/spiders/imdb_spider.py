@@ -16,9 +16,13 @@ class ImdbSpider(scrapy.Spider):
             
             yield scrapy.Request(next_page, callback = self.parse_full_credits)
 
-
     def parse_full_credits(self, response):
-        pass
+        next_credit = [a.attrib["href"] for a in response.css("td.primary_photo a")]
 
+        if next_credit:
+            next_credit = response.urljoin(next_credit)
+
+        yield scrapy.Request(next_credit, callback = self.parse_actor_page)
+    
     def parse_actor_page(self, response):
         pass
