@@ -35,6 +35,7 @@ class ImdbSpider(scrapy.Spider):
         #creates a list of relative paths for each actor
         next_credit = [a.attrib["href"] for a in response.css("td.primary_photo a")]
 
+        #loop through an iterable of actors
         for credit in next_credit:
             if credit:
                 next_link = response.urljoin(credit)
@@ -53,6 +54,7 @@ class ImdbSpider(scrapy.Spider):
         name_box = response.css("h1.header")
         actor_name = name_box.css("span.itemprop::text").get()
         
+        #loop through an iterable of films and TV shows
         for film in response.css("div.filmo-category-section b"):
 
             #get name of film or TV show actor was in
